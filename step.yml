@@ -35,6 +35,7 @@ inputs:
         A `.xcodeproj` or `.xcworkspace` path, relative to
         the Working directory (if specified).
       is_required: true
+      is_expand: true
   - scheme: $BITRISE_SCHEME
     opts:
       title: "Scheme name"
@@ -43,6 +44,7 @@ inputs:
 
         **IMPORTANT**: The Scheme has to be marked as __shared__ in Xcode!
       is_required: true
+      is_expand: true
   - simulator_device: iPhone 6s Plus
     opts:
       title: "Device"
@@ -59,6 +61,7 @@ inputs:
         * iPad Air
         * Apple TV 1080p (don't forget to set the platform to `tvOS Simulator` to use this option!)
       is_required: true
+      is_expand: true
   - simulator_os_version: latest
     opts:
       title: "OS version"
@@ -73,6 +76,7 @@ inputs:
         * 8.4
         * latest
       is_required: true
+      is_expand: true
   - simulator_platform: iOS Simulator
     opts:
       title: Platform
@@ -89,6 +93,7 @@ inputs:
       - iOS Simulator
       - tvOS Simulator
       is_required: true
+      is_expand: true
   - export_uitest_artifacts: "false"
     opts:
       title: Export UITest Artifacts
@@ -98,6 +103,7 @@ inputs:
       value_options:
       - "true"
       - "false"
+      is_expand: true
   - generate_code_coverage_files: "no"
     opts:
       title: "Generate code coverage files?"
@@ -111,6 +117,7 @@ inputs:
         - "yes"
         - "no"
       is_required: true
+      is_expand: true
   - xctest_run_path: ""
     opts:
       title: XCTestRun path
@@ -118,6 +125,7 @@ inputs:
         Path to a XCTestRun file to use with test-without-building.
         If provided, tests will be run without building the app.
         The project path, scheme, clean build & build before testing parameters will be ignored.
+      is_expand: true
   - verbose: "no"
     opts:
       category: Debug
@@ -127,6 +135,7 @@ inputs:
       value_options:
         - "yes"
         - "no"
+      is_expand: true
   - headless_mode: "yes"
     opts:
       category: Debug
@@ -140,6 +149,7 @@ inputs:
       value_options:
         - "yes"
         - "no"
+      is_expand: true
   - workdir: $BITRISE_SOURCE_DIR
     opts:
       category: Debug
@@ -147,6 +157,7 @@ inputs:
       description: |-
         Working directory of the step.
         You can leave it empty to leave the working directory unchanged.
+      is_expand: true
   - is_clean_build: "no"
     opts:
       category: Debug
@@ -155,6 +166,7 @@ inputs:
         - "yes"
         - "no"
       is_required: true
+      is_expand: true
   - output_tool: xcpretty
     opts:
       category: Debug
@@ -166,6 +178,7 @@ inputs:
       - xcpretty
       - xcodebuild
       is_required: true
+      is_expand: true
   - xcodebuild_test_options: ""
     opts:
       category: Debug
@@ -189,6 +202,7 @@ inputs:
 
         If you want to add more options, list that separated by space character.
         Example: `-xcconfig PATH -verbose`
+      is_expand: true
   - single_build: "true"
     opts:
       category: Debug
@@ -201,6 +215,7 @@ inputs:
       value_options:
       - "true"
       - "false"
+      is_expand: true
   - should_build_before_test: "yes"
     opts:
       category: Debug
@@ -217,6 +232,7 @@ inputs:
         - "yes"
         - "no"
       is_required: true
+      is_expand: true
   - should_retry_test_on_fail: "no"
     opts:
       category: Debug
@@ -227,6 +243,7 @@ inputs:
         - "yes"
         - "no"
       is_required: true
+      is_expand: true
   - xcpretty_test_options: --color --report html --output "${BITRISE_DEPLOY_DIR}/xcode-test-results-${BITRISE_SCHEME}.html"
     opts:
       category: Debug
@@ -243,6 +260,7 @@ inputs:
         `set -o pipefail && XCODEBUILD_TEST_COMMAND | xcpretty --color --report html --color --report html --output "${BITRISE_DEPLOY_DIR}/xcode-test-results-${BITRISE_SCHEME}.html"
 
         If you want to add more options, list that separated by space character.
+      is_expand: true
 outputs:
 - BITRISE_XCODE_TEST_RESULT:
   opts:
