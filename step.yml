@@ -111,6 +111,13 @@ inputs:
         - "yes"
         - "no"
       is_required: true
+  - xctest_run_path: ""
+    opts:
+      title: xctestrun path
+      description: |-
+        Path to a xctestrun file to use with test-without-building.
+        If provided, tests will be run without building the app.
+        The project path, scheme, clean build & build before testing parameters will be ignored.
   - verbose: "no"
     opts:
       category: Debug

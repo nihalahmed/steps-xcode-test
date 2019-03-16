@@ -24,6 +24,7 @@ type XcodeBuildTestParamsModel struct {
 	BuildBeforeTest      bool
 	GenerateCodeCoverage bool
 	AdditionalOptions    string
+	XctestRunPath	     string
 }
 
 // SimInfoModel ...

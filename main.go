@@ -91,6 +91,7 @@ type Configs struct {
 	// Not required parameters
 	TestOptions         string `env:"xcodebuild_test_options"`
 	XcprettyTestOptions string `env:"xcpretty_test_options"`
+	XctestRunPath 		string `env:"xctest_run_path"`
 
 	// Debug
 	Verbose      bool `env:"verbose,opt[yes,no]"`
@@ -258,8 +259,11 @@ func runTest(buildTestParams models.XcodeBuildTestParamsModel, outputTool, xcpre
 	}
 	buildParams := buildTestParams.BuildParams
 
-	xcodebuildArgs := []string{buildParams.Action, buildParams.ProjectPath, "-scheme", buildParams.Scheme}
-	if buildTestParams.CleanBuild {
+	xcodebuildArgs := []string{}
+	if buildTestParams.XctestRunPath == "" {
+		xcodebuildArgs = append(xcodebuildArgs, buildParams.Action, buildParams.ProjectPath, "-scheme", buildParams.Scheme)
+	}
+	if buildTestParams.CleanBuild && buildTestParams.XctestRunPath == "" {
 		xcodebuildArgs = append(xcodebuildArgs, "clean")
 	}
 	// the 'build' argument is required *before* the 'test' arg, to prevent
@@ -273,10 +277,15 @@ func runTest(buildTestParams models.XcodeBuildTestParamsModel, outputTool, xcpre
 	// have the possibility of opting out, because the explicit build arg
 	// leads the project to be compiled twice and increase the duration
 	// Related issue link: https://github.com/bitrise-io/steps-xcode-test/issues/55
-	if buildTestParams.BuildBeforeTest {
+	if buildTestParams.BuildBeforeTest && buildTestParams.XctestRunPath == "" {
 		xcodebuildArgs = append(xcodebuildArgs, "build")
 	}
-	xcodebuildArgs = append(xcodebuildArgs, "test", "-destination", buildParams.DeviceDestination)
+	if buildTestParams.XctestRunPath == "" {
+		xcodebuildArgs = append(xcodebuildArgs, "test", "-destination", buildParams.DeviceDestination)
+	} else {
+		xcodebuildArgs = append(xcodebuildArgs, "test-without-building", "-destination", buildParams.DeviceDestination)
+		xcodebuildArgs = append(xcodebuildArgs, "-xctestrun", buildTestParams.XctestRunPath)
+	}
 	xcodebuildArgs = append(xcodebuildArgs, "-resultBundlePath", buildTestParams.TestOutputDir)
 
 	if buildTestParams.GenerateCodeCoverage {
@@ -541,6 +550,7 @@ func main() {
 		BuildBeforeTest:      configs.ShouldBuildBeforeTest,
 		AdditionalOptions:    configs.TestOptions,
 		GenerateCodeCoverage: configs.GenerateCodeCoverageFiles,
+		XctestRunPath: 		  configs.XctestRunPath,
 	}
 
 	if configs.IsSingleBuild {

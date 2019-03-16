@@ -249,6 +249,7 @@ workflows:
         - export_uitest_artifacts: "true"
         - verbose: "yes"
         - headless_mode: $HEADLESS_MODE
+        - xctest_run_path: "$XCTEST_RUN_PATH"
     - script:
         title: Output test
         is_always_run: true
