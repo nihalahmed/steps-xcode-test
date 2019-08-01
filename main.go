@@ -12,6 +12,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"sync"
 	"syscall"
 	"time"
 
@@ -453,6 +454,20 @@ func fail(format string, v ...interface{}) {
 //--------------------
 
 func main() {
+	var wg sync.WaitGroup
+	wg.Add(2)
+	go func() {
+		main_()
+		wg.Done()
+	}()
+	go func() {
+		main_()
+		wg.Done()
+	}()
+	wg.Wait()
+}
+
+func main_() {
 	var configs Configs
 	if err := stepconf.Parse(&configs); err != nil {
 		fail("Issue with input: %s", err)
