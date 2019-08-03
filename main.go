@@ -594,9 +594,9 @@ func main_(simulatorDevice string, testOptions string) {
 			fail("failed to boot simulator, error: ", err)
 		}
 
-// 		progress.NewDefaultWrapper("Waiting for simulator boot").WrapAction(func() {
-// 			time.Sleep(60 * time.Second)
-// 		})
+		progress.NewDefaultWrapper("Waiting for simulator boot").WrapAction(func() {
+			time.Sleep(1 * time.Second)
+		})
 
 		fmt.Println()
 	}
