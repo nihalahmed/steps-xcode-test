@@ -12,6 +12,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"sync"
 	"syscall"
 	"time"
 
@@ -465,7 +466,11 @@ func main() {
 		fail("Issue with input: %s", err)
 	}
 	devices := []*device{&device{"iPhone 6s Plus", false}, &device{"iPhone 8", false}, &device{"iPhone X", false}}
-	wg := SizedWaitGroup.New(3)
+	wg := SizedWaitGroup{
+		Size: 3,
+		current: make(chan struct{}, 3),
+		wg:      sync.WaitGroup{},
+	}
 	wg.Add()
 	go func() {
 		var device *device
