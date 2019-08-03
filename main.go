@@ -465,7 +465,7 @@ func main() {
 		fail("Issue with input: %s", err)
 	}
 	devices := []*device{&device{"iPhone 6s Plus", false}, &device{"iPhone 8", false}, &device{"iPhone X", false}}
-	wg := sizedwaitgroup.New(3)
+	wg := SizedWaitGroup.New(3)
 	wg.Add()
 	go func() {
 		var device *device
