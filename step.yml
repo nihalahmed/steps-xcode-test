@@ -203,7 +203,7 @@ inputs:
         If you want to add more options, list that separated by space character.
         Example: `-xcconfig PATH -verbose`
       is_expand: true
-- xcodebuild_test_options_2: ""
+  - xcodebuild_test_options_2: ""
     opts:
       category: Debug
       title: Additional options for `xcodebuild build test` call
