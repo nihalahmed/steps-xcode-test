@@ -465,8 +465,8 @@ func main() {
 		fail("Issue with input: %s", err)
 	}
 	devices := []*device{&device{"iPhone 6s Plus", false}, &device{"iPhone 8", false}, &device{"iPhone X", false}}
-	swg := sizedwaitgroup.New(8)
-	swg.Add()
+	wg := sizedwaitgroup.New(3)
+	wg.Add()
 	go func() {
 		var device *device
 		for _, v := range devices {
@@ -480,6 +480,7 @@ func main() {
 		device.inUse = false
 		wg.Done()
 	}()
+	wg.Add()
 	go func() {
 		var device *device
 		for _, v := range devices {
@@ -493,6 +494,7 @@ func main() {
 		device.inUse = false
 		wg.Done()
 	}()
+	wg.Add()
 	go func() {
 		var device *device
 		for _, v := range devices {
@@ -506,6 +508,7 @@ func main() {
 		device.inUse = false
 		wg.Done()
 	}()
+	wg.Add()
 	go func() {
 		var device *device
 		for _, v := range devices {
@@ -519,6 +522,7 @@ func main() {
 		device.inUse = false
 		wg.Done()
 	}()
+	wg.Add()
 	go func() {
 		var device *device
 		for _, v := range devices {
@@ -532,6 +536,7 @@ func main() {
 		device.inUse = false
 		wg.Done()
 	}()
+	wg.Add()
 	go func() {
 		var device *device
 		for _, v := range devices {
@@ -545,6 +550,7 @@ func main() {
 		device.inUse = false
 		wg.Done()
 	}()
+	wg.Add()
 	go func() {
 		var device *device
 		for _, v := range devices {
@@ -558,6 +564,7 @@ func main() {
 		device.inUse = false
 		wg.Done()
 	}()
+	wg.Add()
 	go func() {
 		var device *device
 		for _, v := range devices {
