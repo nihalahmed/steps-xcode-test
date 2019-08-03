@@ -457,17 +457,17 @@ func main() {
 	var wg sync.WaitGroup
 	wg.Add(2)
 	go func() {
-		main_()
+		main_("iPhone 8")
 		wg.Done()
 	}()
 	go func() {
-		main_()
+		main_("iPhone 6 Plus")
 		wg.Done()
 	}()
 	wg.Wait()
 }
 
-func main_() {
+func main_(simulatorDevice string) {
 	var configs Configs
 	if err := stepconf.Parse(&configs); err != nil {
 		fail("Issue with input: %s", err)
@@ -522,7 +522,7 @@ func main_() {
 	}
 
 	// Simulator infos
-	simulator, err := xcodeutil.GetSimulator(configs.SimulatorPlatform, configs.SimulatorDevice, configs.SimulatorOsVersion)
+	simulator, err := xcodeutil.GetSimulator(configs.SimulatorPlatform, simulatorDevice, configs.SimulatorOsVersion)
 	if err != nil {
 		if err := cmd.ExportEnvironmentWithEnvman("BITRISE_XCODE_TEST_RESULT", "failed"); err != nil {
 			log.Warnf("Failed to export: BITRISE_XCODE_TEST_RESULT, error: %s", err)
