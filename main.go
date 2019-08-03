@@ -92,6 +92,7 @@ type Configs struct {
 	// Not required parameters
 	TestOptions         string `env:"xcodebuild_test_options"`
 	TestOptions2         string `env:"xcodebuild_test_options_2"`
+	TestOptions3         string `env:"xcodebuild_test_options_3"`
 	XcprettyTestOptions string `env:"xcpretty_test_options"`
 	XctestRunPath 		string `env:"xctest_run_path"`
 
@@ -460,13 +461,17 @@ func main() {
 		fail("Issue with input: %s", err)
 	}
 	var wg sync.WaitGroup
-	wg.Add(2)
+	wg.Add(3)
 	go func() {
 		main_("iPhone 8", configs.TestOptions)
 		wg.Done()
 	}()
 	go func() {
 		main_("iPhone 6s Plus", configs.TestOptions2)
+		wg.Done()
+	}()
+	go func() {
+		main_("iPhone X", configs.TestOptions3)
 		wg.Done()
 	}()
 	wg.Wait()
