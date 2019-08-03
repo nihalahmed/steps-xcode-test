@@ -12,7 +12,6 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
-	"sync"
 	"syscall"
 	"time"
 
@@ -455,23 +454,121 @@ func fail(format string, v ...interface{}) {
 // Main
 //--------------------
 
+type device struct {
+	name string
+	inUse bool
+}
+
 func main() {
 	var configs Configs
 	if err := stepconf.Parse(&configs); err != nil {
 		fail("Issue with input: %s", err)
 	}
-	var wg sync.WaitGroup
-	wg.Add(3)
+	devices := []*device{&device{"iPhone 6s Plus", false}, &device{"iPhone 8", false}, &device{"iPhone X", false}}
+	swg := sizedwaitgroup.New(8)
+	swg.Add()
 	go func() {
-		main_("iPhone 8", configs.TestOptions)
+		var device *device
+		for _, v := range devices {
+			if !v.inUse {
+				device = v
+				break
+			}
+		}
+		device.inUse = true
+		main_(device.name, "-only-testing:WattpadUITests/CoinShopUITests")
+		device.inUse = false
 		wg.Done()
 	}()
 	go func() {
-		main_("iPhone 6s Plus", configs.TestOptions2)
+		var device *device
+		for _, v := range devices {
+			if !v.inUse {
+				device = v
+				break
+			}
+		}
+		device.inUse = true
+		main_(device.name, "-only-testing:WattpadUITests/InboxControllerTests")
+		device.inUse = false
 		wg.Done()
 	}()
 	go func() {
-		main_("iPhone X", configs.TestOptions3)
+		var device *device
+		for _, v := range devices {
+			if !v.inUse {
+				device = v
+				break
+			}
+		}
+		device.inUse = true
+		main_(device.name, "-only-testing:WattpadUITests/LibraryTests")
+		device.inUse = false
+		wg.Done()
+	}()
+	go func() {
+		var device *device
+		for _, v := range devices {
+			if !v.inUse {
+				device = v
+				break
+			}
+		}
+		device.inUse = true
+		main_(device.name, "-only-testing:WattpadUITests/LoginTests")
+		device.inUse = false
+		wg.Done()
+	}()
+	go func() {
+		var device *device
+		for _, v := range devices {
+			if !v.inUse {
+				device = v
+				break
+			}
+		}
+		device.inUse = true
+		main_(device.name, "-only-testing:WattpadUITests/OnboardingTests")
+		device.inUse = false
+		wg.Done()
+	}()
+	go func() {
+		var device *device
+		for _, v := range devices {
+			if !v.inUse {
+				device = v
+				break
+			}
+		}
+		device.inUse = true
+		main_(device.name, "-only-testing:WattpadUITests/PremiumTests")
+		device.inUse = false
+		wg.Done()
+	}()
+	go func() {
+		var device *device
+		for _, v := range devices {
+			if !v.inUse {
+				device = v
+				break
+			}
+		}
+		device.inUse = true
+		main_(device.name, "-only-testing:WattpadUITests/ReaderTests")
+		device.inUse = false
+		wg.Done()
+	}()
+	go func() {
+		var device *device
+		for _, v := range devices {
+			if !v.inUse {
+				device = v
+				break
+			}
+		}
+		device.inUse = true
+		main_(device.name, "-only-testing:WattpadUITests/StoryInfoTests")
+		device.inUse = false
 		wg.Done()
 	}()
 	wg.Wait()
