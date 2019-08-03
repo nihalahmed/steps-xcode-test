@@ -91,6 +91,7 @@ type Configs struct {
 
 	// Not required parameters
 	TestOptions         string `env:"xcodebuild_test_options"`
+	TestOptions2         string `env:"xcodebuild_test_options_2"`
 	XcprettyTestOptions string `env:"xcpretty_test_options"`
 	XctestRunPath 		string `env:"xctest_run_path"`
 
@@ -454,20 +455,24 @@ func fail(format string, v ...interface{}) {
 //--------------------
 
 func main() {
+	var configs Configs
+	if err := stepconf.Parse(&configs); err != nil {
+		fail("Issue with input: %s", err)
+	}
 	var wg sync.WaitGroup
 	wg.Add(2)
 	go func() {
-		main_("iPhone 8")
+		main_("iPhone 8", configs.TestOptions)
 		wg.Done()
 	}()
 	go func() {
-		main_("iPhone 6s Plus")
+		main_("iPhone 6s Plus", configs.TestOptions2)
 		wg.Done()
 	}()
 	wg.Wait()
 }
 
-func main_(simulatorDevice string) {
+func main_(simulatorDevice string, testOptions string) {
 	var configs Configs
 	if err := stepconf.Parse(&configs); err != nil {
 		fail("Issue with input: %s", err)
@@ -563,7 +568,7 @@ func main_(simulatorDevice string) {
 
 		TestOutputDir:        testOutputDir,
 		BuildBeforeTest:      configs.ShouldBuildBeforeTest,
-		AdditionalOptions:    configs.TestOptions,
+		AdditionalOptions:    testOptions,
 		GenerateCodeCoverage: configs.GenerateCodeCoverageFiles,
 		XctestRunPath: 		  configs.XctestRunPath,
 	}
