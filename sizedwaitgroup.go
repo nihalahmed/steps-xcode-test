@@ -7,7 +7,7 @@
 // queries in order to not overload the given database.
 //
 // Rémy Mathieu © 2016
-package sizedwaitgroup
+package main
 
 import (
 	"context"
