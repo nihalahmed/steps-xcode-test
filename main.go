@@ -461,7 +461,7 @@ func main() {
 		wg.Done()
 	}()
 	go func() {
-		main_("iPhone 6 Plus")
+		main_("iPhone 6s Plus")
 		wg.Done()
 	}()
 	wg.Wait()
