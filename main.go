@@ -500,8 +500,7 @@ func runNext(configs Configs, wg *sizedwaitgroup.SizedWaitGroup, devices []*devi
 }
 
 func run(configs Configs, simulatorDevice string, testOptions string) {
-	stepconf.Print(simulatorDevice)
-	stepconf.Print(testOptions)
+	log.Printf("Running on %s with options: %s", simulatorDevice, testOptions)
 	fmt.Println()
 
 	// Project-or-Workspace flag
