@@ -13,7 +13,6 @@ import (
 	"regexp"
 	"sizedwaitgroup"
 	"strings"
-	"sync"
 	"syscall"
 	"time"
 
