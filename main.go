@@ -75,7 +75,7 @@ type Configs struct {
 
 	// Simulator Configs
 	SimulatorPlatform  string `env:"simulator_platform,required"`
-	SimulatorDevice    string `env:"simulator_device,required"`
+	SimulatorDevices   string `env:"simulator_devices,required"`
 	SimulatorOsVersion string `env:"simulator_os_version,required"`
 
 	// Test Run Configs
@@ -463,21 +463,16 @@ func main() {
 	if err := stepconf.Parse(&configs); err != nil {
 		fail("Issue with input: %s", err)
 	}
-	simulatorDevices := strings.Split(configs.SimulatorDevice, "\n")
+	simulatorDevices := strings.Split(configs.SimulatorDevices, "\n")
 	var devices []*device
 	for _, v := range simulatorDevices {
 		devices = append(devices, &device{v, false})
 	}
-	fmt.Printf("%s %s", simulatorDevices, devices)
 	wg := sizedwaitgroup.New(len(devices))
-	runNext(&wg, devices, "-only-testing:WattpadUITests/CoinShopUITests")
-	runNext(&wg, devices, "-only-testing:WattpadUITests/InboxControllerTests")
-	runNext(&wg, devices, "-only-testing:WattpadUITests/LibraryTests")
-	runNext(&wg, devices, "-only-testing:WattpadUITests/LoginTests")
-	runNext(&wg, devices, "-only-testing:WattpadUITests/OnboardingTests")
-	runNext(&wg, devices, "-only-testing:WattpadUITests/PremiumTests")
-	runNext(&wg, devices, "-only-testing:WattpadUITests/ReaderTests")
-	runNext(&wg, devices, "-only-testing:WattpadUITests/StoryInfoTests")
+	testOptions := strings.Split(configs.TestOptions, "\n")
+	for _, v := range testOptions {
+	    runNext(&wg, devices, v)
+	}
 	wg.Wait()
 }
 
