@@ -45,11 +45,11 @@ inputs:
         **IMPORTANT**: The Scheme has to be marked as __shared__ in Xcode!
       is_required: true
       is_expand: true
-  - simulator_device: iPhone 6s Plus
+  - simulator_devices: iPhone 6s Plus
     opts:
-      title: "Device"
+      title: "Devices"
       description: |-
-        Set it as it is shown in Xcode's device selection dropdown UI.
+        Set it as it is shown in Xcode's device selection dropdown UI. Use one line per device.
 
         A couple of examples (the
         actual available options depend on which versions
@@ -184,7 +184,7 @@ inputs:
       category: Debug
       title: Additional options for `xcodebuild build test` call
       description: |-
-        Options added to the end of the `xcodebuild build test` call.
+        Options added to the end of the `xcodebuild build test` call. Use one line per option.
 
         If you leave empty this input, xcodebuild will be called as:
 

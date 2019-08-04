@@ -11,6 +11,7 @@ import (
 	"path"
 	"path/filepath"
 	"regexp"
+	"sizedwaitgroup"
 	"strings"
 	"syscall"
 	"time"
@@ -74,7 +75,7 @@ type Configs struct {
 
 	// Simulator Configs
 	SimulatorPlatform  string `env:"simulator_platform,required"`
-	SimulatorDevice    string `env:"simulator_device,required"`
+	SimulatorDevices   string `env:"simulator_devices,required"`
 	SimulatorOsVersion string `env:"simulator_os_version,required"`
 
 	// Test Run Configs
@@ -452,6 +453,11 @@ func fail(format string, v ...interface{}) {
 // Main
 //--------------------
 
+type device struct {
+	name string
+	inUse bool
+}
+
 func main() {
 	var configs Configs
 	if err := stepconf.Parse(&configs); err != nil {
@@ -461,6 +467,43 @@ func main() {
 	stepconf.Print(configs)
 	fmt.Println()
 	log.SetEnableDebugLog(configs.Verbose)
+
+	simulatorDevices := strings.Split(configs.SimulatorDevices, "\n")
+	var devices []*device
+	for _, v := range simulatorDevices {
+		devices = append(devices, &device{v, false})
+	}
+
+	wg := sizedwaitgroup.New(len(devices))
+	testOptions := strings.Split(configs.TestOptions, "\n")
+	for _, v := range testOptions {
+		if v != "" {
+			runNext(configs, &wg, devices, v)
+		}
+	}
+	wg.Wait()
+}
+
+func runNext(configs Configs, wg *sizedwaitgroup.SizedWaitGroup, devices []*device, testOptions string) {
+	wg.Add()
+	go func() {
+		var device *device
+		for _, v := range devices {
+			if !v.inUse {
+				device = v
+				break
+			}
+		}
+		device.inUse = true
+		run(configs, device.name, testOptions)
+		device.inUse = false
+		wg.Done()
+	}()
+}
+
+func run(configs Configs, simulatorDevice string, testOptions string) {
+	log.Printf("Running on %s with options: %s", simulatorDevice, testOptions)
+	fmt.Println()
 
 	// Project-or-Workspace flag
 	action := ""
@@ -507,7 +550,7 @@ func main() {
 	}
 
 	// Simulator infos
-	simulator, err := xcodeutil.GetSimulator(configs.SimulatorPlatform, configs.SimulatorDevice, configs.SimulatorOsVersion)
+	simulator, err := xcodeutil.GetSimulator(configs.SimulatorPlatform, simulatorDevice, configs.SimulatorOsVersion)
 	if err != nil {
 		if err := cmd.ExportEnvironmentWithEnvman("BITRISE_XCODE_TEST_RESULT", "failed"); err != nil {
 			log.Warnf("Failed to export: BITRISE_XCODE_TEST_RESULT, error: %s", err)
@@ -548,7 +591,7 @@ func main() {
 
 		TestOutputDir:        testOutputDir,
 		BuildBeforeTest:      configs.ShouldBuildBeforeTest,
-		AdditionalOptions:    configs.TestOptions,
+		AdditionalOptions:    testOptions,
 		GenerateCodeCoverage: configs.GenerateCodeCoverageFiles,
 		XctestRunPath: 		  configs.XctestRunPath,
 	}
@@ -570,7 +613,7 @@ func main() {
 		}
 
 		progress.NewDefaultWrapper("Waiting for simulator boot").WrapAction(func() {
-			time.Sleep(60 * time.Second)
+			time.Sleep(1 * time.Second)
 		})
 
 		fmt.Println()

@@ -34,7 +34,7 @@ workflows:
     - OUTPUT_TOOL: xcpretty
     - BITRISE_PROJECT_PATH: ios-simple-objc/ios-simple-objc.xcodeproj
     - BITRISE_SCHEME: ios-simple-objc
-    - SIMULATOR_DEVICE: iPhone 6 Plus
+    - SIMULATOR_DEVICES: iPhone 6 Plus
     - SIMULATOR_PLATFORM: iOS Simulator
     - HEADLESS_MODE: "yes"
     - RETRY_ON_FAIL: "yes"
@@ -59,7 +59,7 @@ workflows:
     - OUTPUT_TOOL: xcodebuild
     - BITRISE_PROJECT_PATH: ios-simple-objc/ios-simple-objc.xcodeproj
     - BITRISE_SCHEME: ios-simple-objc
-    - SIMULATOR_DEVICE: iPhone 6 Plus
+    - SIMULATOR_DEVICES: iPhone 6 Plus
     - SIMULATOR_PLATFORM: iOS Simulator
     - HEADLESS_MODE: "yes"
     - RETRY_ON_FAIL: "no"
@@ -74,7 +74,7 @@ workflows:
     - OUTPUT_TOOL: xcpretty
     - BITRISE_PROJECT_PATH: ios-simple-objc/ios-simple-objc.xcodeproj
     - BITRISE_SCHEME: ios-simple-objc
-    - SIMULATOR_DEVICE: iPhone 6 Plus
+    - SIMULATOR_DEVICES: iPhone 6 Plus
     - SIMULATOR_PLATFORM: iOS Simulator
     - HEADLESS_MODE: "yes"
     - RETRY_ON_FAIL: "no"
@@ -103,7 +103,7 @@ workflows:
     - OUTPUT_TOOL: xcodebuild
     - BITRISE_PROJECT_PATH: ios-simple-objc/ios-simple-objc.xcodeproj
     - BITRISE_SCHEME: ios-simple-objc
-    - SIMULATOR_DEVICE: iPhone 6 Plus
+    - SIMULATOR_DEVICES: iPhone 6 Plus
     - SIMULATOR_PLATFORM: iOS Simulator
     - HEADLESS_MODE: "yes"
     - RETRY_ON_FAIL: "no"
@@ -118,7 +118,7 @@ workflows:
     - OUTPUT_TOOL: xcodebuild
     - BITRISE_PROJECT_PATH: ios-xcode-8.0/ios-xcode-8.0.xcodeproj
     - BITRISE_SCHEME: ios-xcode-8.0
-    - SIMULATOR_DEVICE: iPhone 6 Plus
+    - SIMULATOR_DEVICES: iPhone 6 Plus
     - SIMULATOR_PLATFORM: iOS Simulator
     - HEADLESS_MODE: "yes"
     - RETRY_ON_FAIL: "no"
@@ -132,7 +132,7 @@ workflows:
     - OUTPUT_TOOL: xcodebuild
     - BITRISE_PROJECT_PATH: NPO Live.xcworkspace
     - BITRISE_SCHEME: NPO Live
-    - SIMULATOR_DEVICE: Apple TV
+    - SIMULATOR_DEVICES: Apple TV
     - SIMULATOR_PLATFORM: tvOS Simulator
     - HEADLESS_MODE: "yes"
     - RETRY_ON_FAIL: "no"
@@ -158,7 +158,7 @@ workflows:
     - OUTPUT_TOOL: xcodebuild
     - BITRISE_PROJECT_PATH: ios-simple-objc/ios-simple-objc.xcodeproj
     - BITRISE_SCHEME: ios-simple-objc
-    - SIMULATOR_DEVICE: iPhone 6 Plus
+    - SIMULATOR_DEVICES: iPhone 6 Plus
     - SIMULATOR_PLATFORM: iOS Simulator
     - HEADLESS_MODE: "no"
     - RETRY_ON_FAIL: "no"
@@ -173,7 +173,7 @@ workflows:
     - OUTPUT_TOOL: xcodebuild
     - BITRISE_PROJECT_PATH: ios-xcode-8.0/ios-xcode-8.0.xcodeproj
     - BITRISE_SCHEME: ios-xcode-8.0
-    - SIMULATOR_DEVICE: iPhone 6 Plus
+    - SIMULATOR_DEVICES: iPhone 6 Plus
     - SIMULATOR_PLATFORM: iOS Simulator
     - HEADLESS_MODE: "no"
     - RETRY_ON_FAIL: "no"
@@ -187,7 +187,7 @@ workflows:
     - OUTPUT_TOOL: xcodebuild
     - BITRISE_PROJECT_PATH: NPO Live.xcworkspace
     - BITRISE_SCHEME: NPO Live
-    - SIMULATOR_DEVICE: Apple TV
+    - SIMULATOR_DEVICES: Apple TV
     - SIMULATOR_PLATFORM: tvOS Simulator
     - HEADLESS_MODE: "no"
     - RETRY_ON_FAIL: "no"
@@ -242,7 +242,7 @@ workflows:
         - is_clean_build: "yes"
         - should_retry_test_on_fail: $RETRY_ON_FAIL
         - generate_code_coverage_files: "no"
-        - simulator_device: $SIMULATOR_DEVICE
+        - simulator_devices: $SIMULATOR_DEVICES
         - simulator_platform: $SIMULATOR_PLATFORM
         - should_build_before_test: "yes"
         - xcodebuild_test_options: -verbose
