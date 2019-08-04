@@ -91,8 +91,6 @@ type Configs struct {
 
 	// Not required parameters
 	TestOptions         string `env:"xcodebuild_test_options"`
-	TestOptions2         string `env:"xcodebuild_test_options_2"`
-	TestOptions3         string `env:"xcodebuild_test_options_3"`
 	XcprettyTestOptions string `env:"xcpretty_test_options"`
 	XctestRunPath 		string `env:"xctest_run_path"`
 
