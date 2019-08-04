@@ -468,6 +468,7 @@ func main() {
 	for _, v := range simulatorDevices {
 		devices = append(devices, &device{v, false})
 	}
+	fmt.Printf("%s %s", simulatorDevices, devices)
 	wg := sizedwaitgroup.New(len(devices))
 	runNext(&wg, devices, "-only-testing:WattpadUITests/CoinShopUITests")
 	runNext(&wg, devices, "-only-testing:WattpadUITests/InboxControllerTests")
