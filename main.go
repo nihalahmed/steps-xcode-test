@@ -463,20 +463,26 @@ func main() {
 	if err := stepconf.Parse(&configs); err != nil {
 		fail("Issue with input: %s", err)
 	}
+
+	stepconf.Print(configs)
+	fmt.Println()
+	log.SetEnableDebugLog(configs.Verbose)
+
 	simulatorDevices := strings.Split(configs.SimulatorDevices, "\n")
 	var devices []*device
 	for _, v := range simulatorDevices {
 		devices = append(devices, &device{v, false})
 	}
+
 	wg := sizedwaitgroup.New(len(devices))
 	testOptions := strings.Split(configs.TestOptions, "\n")
 	for _, v := range testOptions {
-	    runNext(&wg, devices, v)
+	    runNext(configs, &wg, devices, v)
 	}
 	wg.Wait()
 }
 
-func runNext(wg *sizedwaitgroup.SizedWaitGroup, devices []*device, testOptions string) {
+func runNext(configs Configs, wg *sizedwaitgroup.SizedWaitGroup, devices []*device, testOptions string) {
 	wg.Add()
 	go func() {
 		var device *device
@@ -487,21 +493,16 @@ func runNext(wg *sizedwaitgroup.SizedWaitGroup, devices []*device, testOptions s
 			}
 		}
 		device.inUse = true
-		run(device.name, testOptions)
+		run(configs, device.name, testOptions)
 		device.inUse = false
 		wg.Done()
 	}()
 }
 
-func run(simulatorDevice string, testOptions string) {
-	var configs Configs
-	if err := stepconf.Parse(&configs); err != nil {
-		fail("Issue with input: %s", err)
-	}
-
-	stepconf.Print(configs)
+func run(configs Configs, simulatorDevice string, testOptions string) {
+	stepconf.Print(simulatorDevice)
+	stepconf.Print(testOptions)
 	fmt.Println()
-	log.SetEnableDebugLog(configs.Verbose)
 
 	// Project-or-Workspace flag
 	action := ""
