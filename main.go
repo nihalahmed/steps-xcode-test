@@ -477,7 +477,9 @@ func main() {
 	wg := sizedwaitgroup.New(len(devices))
 	testOptions := strings.Split(configs.TestOptions, "\n")
 	for _, v := range testOptions {
-	    runNext(configs, &wg, devices, v)
+		if v != "" {
+			runNext(configs, &wg, devices, v)
+		}
 	}
 	wg.Wait()
 }
