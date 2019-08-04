@@ -467,122 +467,35 @@ func main() {
 	}
 	devices := []*device{&device{"iPhone 6s Plus", false}, &device{"iPhone 8", false}, &device{"iPhone X", false}}
 	wg := sizedwaitgroup.New(3)
-	wg.Add()
-	go func() {
-		var device *device
-		for _, v := range devices {
-			if !v.inUse {
-				device = v
-				break
-			}
-		}
-		device.inUse = true
-		main_(device.name, "-only-testing:WattpadUITests/CoinShopUITests")
-		device.inUse = false
-		wg.Done()
-	}()
-	wg.Add()
-	go func() {
-		var device *device
-		for _, v := range devices {
-			if !v.inUse {
-				device = v
-				break
-			}
-		}
-		device.inUse = true
-		main_(device.name, "-only-testing:WattpadUITests/InboxControllerTests")
-		device.inUse = false
-		wg.Done()
-	}()
-	wg.Add()
-	go func() {
-		var device *device
-		for _, v := range devices {
-			if !v.inUse {
-				device = v
-				break
-			}
-		}
-		device.inUse = true
-		main_(device.name, "-only-testing:WattpadUITests/LibraryTests")
-		device.inUse = false
-		wg.Done()
-	}()
-	wg.Add()
-	go func() {
-		var device *device
-		for _, v := range devices {
-			if !v.inUse {
-				device = v
-				break
-			}
-		}
-		device.inUse = true
-		main_(device.name, "-only-testing:WattpadUITests/LoginTests")
-		device.inUse = false
-		wg.Done()
-	}()
-	wg.Add()
-	go func() {
-		var device *device
-		for _, v := range devices {
-			if !v.inUse {
-				device = v
-				break
-			}
-		}
-		device.inUse = true
-		main_(device.name, "-only-testing:WattpadUITests/OnboardingTests")
-		device.inUse = false
-		wg.Done()
-	}()
-	wg.Add()
-	go func() {
-		var device *device
-		for _, v := range devices {
-			if !v.inUse {
-				device = v
-				break
-			}
-		}
-		device.inUse = true
-		main_(device.name, "-only-testing:WattpadUITests/PremiumTests")
-		device.inUse = false
-		wg.Done()
-	}()
-	wg.Add()
-	go func() {
-		var device *device
-		for _, v := range devices {
-			if !v.inUse {
-				device = v
-				break
-			}
-		}
-		device.inUse = true
-		main_(device.name, "-only-testing:WattpadUITests/ReaderTests")
-		device.inUse = false
-		wg.Done()
-	}()
-	wg.Add()
-	go func() {
-		var device *device
-		for _, v := range devices {
-			if !v.inUse {
-				device = v
-				break
-			}
-		}
-		device.inUse = true
-		main_(device.name, "-only-testing:WattpadUITests/StoryInfoTests")
-		device.inUse = false
-		wg.Done()
-	}()
+	runNext(wg, devices, "-only-testing:WattpadUITests/CoinShopUITests")
+	runNext(wg, devices, "-only-testing:WattpadUITests/InboxControllerTests")
+	runNext(wg, devices, "-only-testing:WattpadUITests/LibraryTests")
+	runNext(wg, devices, "-only-testing:WattpadUITests/LoginTests")
+	runNext(wg, devices, "-only-testing:WattpadUITests/OnboardingTests")
+	runNext(wg, devices, "-only-testing:WattpadUITests/PremiumTests")
+	runNext(wg, devices, "-only-testing:WattpadUITests/ReaderTests")
+	runNext(wg, devices, "-only-testing:WattpadUITests/StoryInfoTests")
 	wg.Wait()
 }
 
-func main_(simulatorDevice string, testOptions string) {
+func runNext(wg *SizedWaitGroup, devices []*device, testOptions string) {
+	wg.Add()
+	go func() {
+		var device *device
+		for _, v := range devices {
+			if !v.inUse {
+				device = v
+				break
+			}
+		}
+		device.inUse = true
+		run(device.name, testOptions)
+		device.inUse = false
+		wg.Done()
+	}()
+}
+
+func run(simulatorDevice string, testOptions string) {
 	var configs Configs
 	if err := stepconf.Parse(&configs); err != nil {
 		fail("Issue with input: %s", err)
