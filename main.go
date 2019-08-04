@@ -478,7 +478,7 @@ func main() {
 	wg.Wait()
 }
 
-func runNext(wg *SizedWaitGroup, devices []*device, testOptions string) {
+func runNext(wg *sizedwaitgroup.SizedWaitGroup, devices []*device, testOptions string) {
 	wg.Add()
 	go func() {
 		var device *device
