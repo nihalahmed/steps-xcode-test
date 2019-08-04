@@ -463,7 +463,11 @@ func main() {
 	if err := stepconf.Parse(&configs); err != nil {
 		fail("Issue with input: %s", err)
 	}
-	devices := []*device{&device{"iPhone 6s Plus", false}, &device{"iPhone 8", false}, &device{"iPhone X", false}}
+	simulatorDevices = strings.Fields(configs.SimulatorDevice)
+	var devices []*device
+	for _, v := range simulatorDevices {
+		devices = append(devices, {v, false})
+	}
 	wg := sizedwaitgroup.New(3)
 	runNext(&wg, devices, "-only-testing:WattpadUITests/CoinShopUITests")
 	runNext(&wg, devices, "-only-testing:WattpadUITests/InboxControllerTests")
