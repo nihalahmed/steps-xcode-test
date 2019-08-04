@@ -184,7 +184,7 @@ inputs:
       category: Debug
       title: Additional options for `xcodebuild build test` call
       description: |-
-        Options added to the end of the `xcodebuild build test` call.
+        Options added to the end of the `xcodebuild build test` call. Use one line per option.
 
         If you leave empty this input, xcodebuild will be called as:
 
