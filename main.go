@@ -466,7 +466,7 @@ func main() {
 	simulatorDevices = strings.Fields(configs.SimulatorDevice)
 	var devices []*device
 	for _, v := range simulatorDevices {
-		devices = append(devices, {v, false})
+		devices = append(devices, &device{v, false})
 	}
 	wg := sizedwaitgroup.New(3)
 	runNext(&wg, devices, "-only-testing:WattpadUITests/CoinShopUITests")
