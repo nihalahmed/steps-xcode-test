@@ -463,7 +463,7 @@ func main() {
 	if err := stepconf.Parse(&configs); err != nil {
 		fail("Issue with input: %s", err)
 	}
-	simulatorDevices = strings.Fields(configs.SimulatorDevice)
+	simulatorDevices := strings.Fields(configs.SimulatorDevice)
 	var devices []*device
 	for _, v := range simulatorDevices {
 		devices = append(devices, &device{v, false})
