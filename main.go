@@ -467,14 +467,14 @@ func main() {
 	}
 	devices := []*device{&device{"iPhone 6s Plus", false}, &device{"iPhone 8", false}, &device{"iPhone X", false}}
 	wg := sizedwaitgroup.New(3)
-	runNext(wg, devices, "-only-testing:WattpadUITests/CoinShopUITests")
-	runNext(wg, devices, "-only-testing:WattpadUITests/InboxControllerTests")
-	runNext(wg, devices, "-only-testing:WattpadUITests/LibraryTests")
-	runNext(wg, devices, "-only-testing:WattpadUITests/LoginTests")
-	runNext(wg, devices, "-only-testing:WattpadUITests/OnboardingTests")
-	runNext(wg, devices, "-only-testing:WattpadUITests/PremiumTests")
-	runNext(wg, devices, "-only-testing:WattpadUITests/ReaderTests")
-	runNext(wg, devices, "-only-testing:WattpadUITests/StoryInfoTests")
+	runNext(&wg, devices, "-only-testing:WattpadUITests/CoinShopUITests")
+	runNext(&wg, devices, "-only-testing:WattpadUITests/InboxControllerTests")
+	runNext(&wg, devices, "-only-testing:WattpadUITests/LibraryTests")
+	runNext(&wg, devices, "-only-testing:WattpadUITests/LoginTests")
+	runNext(&wg, devices, "-only-testing:WattpadUITests/OnboardingTests")
+	runNext(&wg, devices, "-only-testing:WattpadUITests/PremiumTests")
+	runNext(&wg, devices, "-only-testing:WattpadUITests/ReaderTests")
+	runNext(&wg, devices, "-only-testing:WattpadUITests/StoryInfoTests")
 	wg.Wait()
 }
 
